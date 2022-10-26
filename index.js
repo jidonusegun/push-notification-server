@@ -25,7 +25,7 @@ app.post("/subscribe", (req, res) => {
   res.status(200).json({});
 })
 
-app.listen(4001, () => console.log("Server running on port 4001"))
+app.listen(process.env.PORT || 4001, () => console.log("Server running on port 4001"))
 
 
 
