@@ -23,10 +23,10 @@ app.get("/", (req, res) => {
 })
 
 app.post("/subscribe", (req, res) => {
-  const sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/eB-kr-4Q5DY:APA91bGA4qUOTSZz-RZUD0oBUx5P_sUQ-Uf9jubyF5NYzsLMF1aMvk8xFQq2oZeEe5YboBap_FoHt7T_TQjbYxOHEJy6OaYFcipW_uN1pX68UZOgYQCfRPaeohjXJdrbME1XjvfA-tQ5","expirationTime":null,"keys":{"p256dh":"BCfRijbpD0Ax8j5wDGh2WVLZVZTOomseLO9dQPsZei-Flxz2UPcctc5H7lW2KoBIvSN4Hh0sKuhOQ--PYMqrvnY","auth":"_9DiGACCxLfxoOMFKzZz0Q"}}
+  const sub = req.body
   console.log(req.body)
   // webPush.sendNotification(sub, 'Your Push Payload Text');
-  res.status(200).json({});
+  res.status(200).json(sub);
 })
 
 app.listen(process.env.PORT || 4001, () => console.log("Server running on port 4001"))
