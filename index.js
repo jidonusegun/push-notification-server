@@ -24,8 +24,7 @@ app.get("/", (req, res) => {
 
 app.post("/subscribe", (req, res) => {
   const sub = req.body
-  console.log(req.body)
-  // webPush.sendNotification(sub, 'Your Push Payload Text');
+  webPush.sendNotification(sub, 'Your Push Payload Text');
   res.status(200).json(sub);
 })
 
