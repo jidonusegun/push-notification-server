@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/subscribe", (req, res) => {
-  const sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/ft00GnMOm9o:APA91bG0vwdJ0OirLQQ-OqM2-5iMdA18keuQD8ODBnkfWoAbPAb1rU9lpIBcU1DG8sehSEvz2mUdo5Z14zEq7dvY7dgDLaOBPf3FA9W-uZwvI5XkTrKtm--TF_xpXXGAGgqfMEIviTxF","expirationTime":null,"keys":{"p256dh":"BNQ04uQ-NGGUPOE669CMLaqVLXoXC7Nhh3lHKJgJWt9TiCT_L7DQEQ0Fmyr1pvePuMG2Q4MJV9jn9gKypdqp7yk","auth":"W3AxjRbdx-dJeXKBeTETbg"}}
+  const sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/frjEiPd-Sbk:APA91bGhavEEnUv5xAra_UEP2pRdce354EIYgfVI_NgN6aONYh876bGnnOVq8ITWOHf3uX0dPwoZOVCTFF6b2dK6LnUquN4qX1JGTfFkrz0x2csFLqk_s_yFzFx_wOn_no0NIB68tXyw","expirationTime":null,"keys":{"p256dh":"BAMYva7MUsqsXzNB5HFFgyHWeZpjtQOHA2NDRq7t4mcyXyJ69wIIYuCUozTsPKN18sI-x7yz6ieQI2a4DkU8JZk","auth":"TVoKMUzcv6wb3Yj-tdsfrg"}}
   webPush.sendNotification(sub, 'Your Push Payload Text');
   res.status(200).json(sub);
 })
