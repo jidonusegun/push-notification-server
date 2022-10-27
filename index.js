@@ -22,8 +22,8 @@ app.get("/", (req, res) => {
   res.status(200).json({})
 })
 
-app.post("/subscribe", (req, res) => {
-  const sub = req.body
+app.get("/subscribe", (req, res) => {
+  const sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/ft00GnMOm9o:APA91bG0vwdJ0OirLQQ-OqM2-5iMdA18keuQD8ODBnkfWoAbPAb1rU9lpIBcU1DG8sehSEvz2mUdo5Z14zEq7dvY7dgDLaOBPf3FA9W-uZwvI5XkTrKtm--TF_xpXXGAGgqfMEIviTxF","expirationTime":null,"keys":{"p256dh":"BNQ04uQ-NGGUPOE669CMLaqVLXoXC7Nhh3lHKJgJWt9TiCT_L7DQEQ0Fmyr1pvePuMG2Q4MJV9jn9gKypdqp7yk","auth":"W3AxjRbdx-dJeXKBeTETbg"}}
   webPush.sendNotification(sub, 'Your Push Payload Text');
   res.status(200).json(sub);
 })
