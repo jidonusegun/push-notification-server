@@ -1,12 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors')
 const webPush = require('web-push')
+
+const Subscribe = require('./schema.js')
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+const uri = 'mongodb+srv://jidonu2:shegzy1234@push-notification.o5npj91.mongodb.net/?retryWrites=true&w=majority'
 
 const vapidKeys = {
   publicKey: 'BNgZPgqinBqkHBKtXdGU1xASx5GzjPoLLMP9QiXCV9RCBx-7jjHdb8ME1LFgNxhaVVoxTjrKGP6P9DuaYjUnXyg',
@@ -18,14 +23,49 @@ webPush.setVapidDetails(
   vapidKeys.privateKey
 );
 
-app.get("/", (req, res) => {
-  res.status(200).json({})
+async function connect() {
+  try {
+    await mongoose.connect(uri);
+    console.log("Connected to mongoDB")
+  } catch(err) {
+    console.log(err)
+  }
+}
+connect();
+
+app.post("/subscribe", (req, res) => {
+  const data = req.body
+  Subscribe.findOne({sub: data})
+  .then(result => {
+    if (!result) {
+      const subscribe = new Subscribe({sub: result})
+      subscribe.save((error) => {
+        if(error) {
+          res.status(500).json({msg: `An error occur... subscription not save ${error}`})
+          return;
+        } 
+        return res.status(200).json({msg: 'Data saved successfully'});
+      });
+    } else {
+      res.status(500).json({msg: `Subscription already exist`})
+      return;
+    }
+  })
 })
 
 app.get("/subscribe", (req, res) => {
-  const sub = {"endpoint":"https://fcm.googleapis.com/fcm/send/frjEiPd-Sbk:APA91bGhavEEnUv5xAra_UEP2pRdce354EIYgfVI_NgN6aONYh876bGnnOVq8ITWOHf3uX0dPwoZOVCTFF6b2dK6LnUquN4qX1JGTfFkrz0x2csFLqk_s_yFzFx_wOn_no0NIB68tXyw","expirationTime":null,"keys":{"p256dh":"BAMYva7MUsqsXzNB5HFFgyHWeZpjtQOHA2NDRq7t4mcyXyJ69wIIYuCUozTsPKN18sI-x7yz6ieQI2a4DkU8JZk","auth":"TVoKMUzcv6wb3Yj-tdsfrg"}}
-  webPush.sendNotification(sub, 'Your Push Payload Text');
-  res.status(200).json(sub);
+  Subscribe.find({}, (error, datas) => {
+    if(error) {
+      res.status(500).json({msg: "An error occur... could not get data from the databse"})
+      return;
+    } 
+    if(datas.length > 0) {
+      datas.map((data) => {
+        data?.sub && webPush.sendNotification(data.sub, 'Your Push Payload Text');
+      })
+      return res.status(200).json({txt: "Notification sent successfully"})
+    }
+  })
 })
 
 app.listen(process.env.PORT || 4001, () => console.log("Server running on port 4001"))
