@@ -38,7 +38,7 @@ app.post("/subscribe", (req, res) => {
   Subscribe.findOne({sub: data})
   .then(result => {
     if (!result) {
-      const subscribe = new Subscribe({sub: result})
+      const subscribe = new Subscribe({sub: data})
       subscribe.save((error) => {
         if(error) {
           res.status(500).json({msg: `An error occur... subscription not save ${error}`})
