@@ -68,7 +68,7 @@ app.get("/subscribe", (req, res) => {
   })
 })
 
-app.listen(process.env.PORT || 4001, () => console.log("Server running on port 4001"))
+app.listen(process.env.PORT, () => console.log("Server running on port 4001"))
 
 
 
